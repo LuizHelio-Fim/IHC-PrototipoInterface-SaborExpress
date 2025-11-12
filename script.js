@@ -5,7 +5,7 @@ const products = [
     name: "X-Burger Clássico",
     category: "sanduiches",
     price: 18.9,
-    image: "/classic-burger.png",
+    image: "public/classic-burger.png",
     description: "Hambúrguer suculento com queijo, alface e tomate",
     ingredients: ["Pão", "Hambúrguer", "Queijo", "Alface", "Tomate", "Maionese"],
   },
@@ -14,7 +14,7 @@ const products = [
     name: "X-Bacon Especial",
     category: "sanduiches",
     price: 22.9,
-    image: "/bacon-burger.png",
+    image: "public/bacon-burger.png", 
     description: "Hambúrguer com bacon crocante e queijo cheddar",
     ingredients: ["Pão", "Hambúrguer", "Bacon", "Queijo Cheddar", "Cebola Caramelizada"],
   },
@@ -23,8 +23,7 @@ const products = [
     name: "X-Salada Premium",
     category: "sanduiches",
     price: 20.9,
-    image: "/salad-burger.jpg",
-    description: "Opção mais leve com vegetais frescos",
+    image: "public/salad-burger.jpg", 
     ingredients: ["Pão Integral", "Hambúrguer", "Alface", "Tomate", "Cenoura", "Molho Especial"],
   },
   {
@@ -33,7 +32,7 @@ const products = [
     category: "sanduiches",
     price: 28.9,
     originalPrice: 32.9,
-    image: "/supreme-burger.jpg",
+    image: "public/supreme-burger.jpg",
     description: "O mais completo! Tudo que você imaginar",
     ingredients: ["Pão", "Hambúrguer Duplo", "Bacon", "Queijo", "Ovo", "Presunto", "Alface", "Tomate"],
   },
@@ -42,7 +41,7 @@ const products = [
     name: "Batata Frita Grande",
     category: "acompanhamentos",
     price: 12.9,
-    image: "/crispy-french-fries.png",
+    image: "public/crispy-french-fries.png",
     description: "Batatas crocantes e sequinhas",
     ingredients: ["Batata", "Sal"],
   },
@@ -51,7 +50,7 @@ const products = [
     name: "Onion Rings",
     category: "acompanhamentos",
     price: 14.9,
-    image: "/crispy-onion-rings.png",
+    image: "public/crispy-onion-rings.png", 
     description: "Anéis de cebola empanados",
     ingredients: ["Cebola", "Farinha Especial"],
   },
@@ -60,7 +59,7 @@ const products = [
     name: "Nuggets (10un)",
     category: "acompanhamentos",
     price: 16.9,
-    image: "/crispy-chicken-nuggets.png",
+    image: "public/crispy-chicken-nuggets.png", 
     description: "Nuggets de frango crocantes",
     ingredients: ["Frango", "Empanado Crocante"],
   },
@@ -69,7 +68,7 @@ const products = [
     name: "Refrigerante Lata",
     category: "bebidas",
     price: 5.9,
-    image: "/soda-can.png",
+    image: "public/soda-can.png", 
     description: "Coca-Cola, Guaraná ou Fanta",
     ingredients: [],
   },
@@ -78,7 +77,7 @@ const products = [
     name: "Suco Natural 500ml",
     category: "bebidas",
     price: 8.9,
-    image: "/glass-of-orange-juice.png",
+    image: "public/glass-of-orange-juice.png",
     description: "Laranja, Limão ou Morango",
     ingredients: [],
   },
@@ -88,7 +87,7 @@ const products = [
     category: "bebidas",
     price: 12.9,
     originalPrice: 15.9,
-    image: "/classic-milkshake.png",
+    image: "public/classic-milkshake.png", 
     description: "Chocolate, Morango ou Baunilha",
     ingredients: [],
   },
@@ -97,7 +96,7 @@ const products = [
     name: "Combo Clássico",
     category: "combos",
     price: 32.9,
-    image: "/burger-combo.png",
+    image: "public/burger-combo.png", 
     description: "X-Burger + Batata + Refrigerante",
     ingredients: ["X-Burger", "Batata Média", "Refrigerante"],
   },
@@ -107,7 +106,7 @@ const products = [
     category: "combos",
     price: 89.9,
     originalPrice: 112.4,
-    image: "/family-meal.png",
+    image: "public/family-meal.png", 
     description: "3 X-Burgers + 2 Batatas + 3 Refrigerantes",
     ingredients: ["3 X-Burgers", "2 Batatas Grandes", "3 Refrigerantes"],
   },
@@ -203,22 +202,11 @@ function renderMenu() {
     .map(
       (product) => `
         <div class="product-card" onclick="showProductDetail(${product.id})">
-            <img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.src='/placeholder.svg?height=96&width=96'">
+            <img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.src='public/placeholder.png'">
             <div class="product-info">
-                <div class="product-name">${product.name}</div>
-                <div class="product-description">${product.description}</div>
-                <div class="product-footer">
-                    <div class="product-price-container">
-                        ${product.originalPrice ? `<div class="product-original-price">R$ ${product.originalPrice.toFixed(2)}</div>` : ""}
-                        <div class="product-price">R$ ${product.price.toFixed(2)}</div>
-                    </div>
-                    <button class="btn-add" onclick="event.stopPropagation(); showProductDetail(${product.id})">
-                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                        </svg>
-                    </button>
-                </div>
+                <h3 class="product-name">${product.name}</h3>
+                <p class="product-description">${product.description}</p>
+                <p class="product-price">R$ ${product.price.toFixed(2)}</p>
             </div>
         </div>
     `,
@@ -278,7 +266,7 @@ function showProductDetail(productId) {
                 </svg>
             </button>
             ${selectedProduct.originalPrice ? `<div class="product-discount-badge">${discountPercent}% OFF</div>` : ""}
-            <img src="${selectedProduct.image}" alt="${selectedProduct.name}" onerror="this.src='/placeholder.svg?height=400&width=400'">
+            <img src="${selectedProduct.image}" alt="${selectedProduct.name}" onerror="this.src='public/placeholder.png'">
         </div>
         <div class="product-detail-info">
             <h2 class="product-detail-name">${selectedProduct.name}</h2>
@@ -373,7 +361,7 @@ function renderCart() {
       (item) => `
         <div class="cart-item">
             <div class="cart-item-content">
-                <img src="${item.image}" alt="${item.name}" class="cart-item-image" onerror="this.src='/placeholder.svg?height=80&width=80'">
+                <img src="${item.image}" alt="${item.name}" class="cart-item-image" onerror="this.src='public/placeholder.png'">
                 <div class="cart-item-info">
                     <div class="cart-item-header">
                         <div class="cart-item-name">${item.name}</div>
