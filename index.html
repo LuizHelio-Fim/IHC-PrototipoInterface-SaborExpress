@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sabor Express - Fast Food de Qualidade</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div id="splash-screen" class="screen active">
+        <div class="splash-content">
+            <div class="splash-logo">
+                <span class="logo-emoji">🍔</span>
+            </div>
+            <h1 class="splash-title">Sabor Express</h1>
+            <p class="splash-subtitle">Fast Food de Qualidade</p>
+            <div class="splash-spinner"></div>
+        </div>
+    </div>
+
+    <!-- Home Screen -->
+    <div id="home-screen" class="screen">
+        <div class="header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1 class="header-title">Sabor Express</h1>
+                    <p class="header-location">Shopping Vitória - Piso 2</p>
+                </div>
+                <div class="header-right">
+                    <div class="delivery-time">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <span>Entrega em 25-35 min</span>
+                    </div>
+                    <button class="icon-btn" onclick="navigateTo('history-screen')">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </button>
+                    <button class="icon-btn cart-btn" onclick="navigateTo('cart-screen')">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span class="cart-badge" id="cart-badge-home">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="hero-banner">
+                <div class="hero-content">
+                    <h2 class="hero-title">Promoção Especial! 🎉</h2>
+                    <p class="hero-text">Combo Família com 20% OFF</p>
+                    <button class="btn btn-dark" onclick="navigateTo('menu-screen', 'combos')">Ver Ofertas</button>
+                </div>
+                <div class="hero-emoji">🍔</div>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">Categorias</h3>
+                <div class="categories-grid">
+                    <div class="category-card" onclick="navigateTo('menu-screen', 'sanduiches')">
+                        <div class="category-icon">🍔</div>
+                        <p class="category-name">Sanduíches</p>
+                    </div>
+                    <div class="category-card" onclick="navigateTo('menu-screen', 'acompanhamentos')">
+                        <div class="category-icon">🍟</div>
+                        <p class="category-name">Acompanhamentos</p>
+                    </div>
+                    <div class="category-card" onclick="navigateTo('menu-screen', 'bebidas')">
+                        <div class="category-icon">🥤</div>
+                        <p class="category-name">Bebidas</p>
+                    </div>
+                    <div class="category-card" onclick="navigateTo('menu-screen', 'combos')">
+                        <div class="category-icon">🎁</div>
+                        <p class="category-name">Combos</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <button class="btn btn-primary btn-large" onclick="navigateTo('menu-screen')">
+                    Ver Cardápio Completo
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <button class="nav-item active">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                <span>Início</span>
+            </button>
+            <button class="nav-item" onclick="navigateTo('menu-screen')">
+                <span class="nav-emoji">🍔</span>
+                <span>Cardápio</span>
+            </button>
+            <button class="nav-item" onclick="navigateTo('cart-screen')">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+                <span>Carrinho</span>
+                <span class="cart-badge-nav" id="cart-badge-nav">0</span>
+            </button>
+            <button class="nav-item" onclick="navigateTo('history-screen')">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 3v5h5"></path>
+                    <path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"></path>
+                    <path d="M12 7v5l4 2"></path>
+                </svg>
+                <span>Pedidos</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Menu Screen -->
+    <div id="menu-screen" class="screen">
+        <div class="top-bar">
+            <div class="top-bar-content">
+                <button class="icon-btn" onclick="navigateTo('home-screen')">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <h2 class="top-bar-title">Cardápio</h2>
+                <button class="icon-btn cart-btn" onclick="navigateTo('cart-screen')">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="cart-badge" id="cart-badge-menu">0</span>
+                </button>
+            </div>
+            <div class="category-tabs" id="category-tabs"></div>
+        </div>
+
+        <div class="content">
+            <div class="products-grid" id="products-grid"></div>
+        </div>
+    </div>
+
+    <!-- Product Detail Screen -->
+    <div id="product-screen" class="screen">
+        <div id="product-detail-content"></div>
+    </div>
+
+    <!-- Cart Screen -->
+    <div id="cart-screen" class="screen">
+        <div class="top-bar">
+            <div class="top-bar-content">
+                <button class="icon-btn" onclick="navigateTo('menu-screen')">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <h2 class="top-bar-title">Meu Carrinho</h2>
+                <div style="width: 40px;"></div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div id="cart-content"></div>
+        </div>
+
+        <div class="cart-footer" id="cart-footer"></div>
+    </div>
+
+    <!-- Address Screen -->
+    <div id="address-screen" class="screen">
+        <div class="top-bar">
+            <div class="top-bar-content">
+                <button class="icon-btn" onclick="navigateTo('cart-screen')">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <h2 class="top-bar-title">Endereço de Entrega</h2>
+                <div style="width: 40px;"></div>
+            </div>
+        </div>
+
+        <div class="content form-content">
+            <div class="alert alert-info">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <p>Entregamos no Shopping e região próxima</p>
+            </div>
+
+            <form id="address-form">
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label>Rua</label>
+                        <input type="text" id="address-street" placeholder="Nome da rua" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Número</label>
+                        <input type="text" id="address-number" placeholder="123" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Complemento</label>
+                        <input type="text" id="address-complement" placeholder="Apto 101">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label>Bairro</label>
+                        <input type="text" id="address-neighborhood" placeholder="Centro" required>
+                    </div>
+                </div>
+            </form>
+
+            <div class="quick-options">
+                <p class="quick-options-label">Ou escolha:</p>
+                <button class="quick-option-btn" onclick="fillShoppingAddress()">
+                    <div class="quick-option-title">🏢 Retirar no Shopping</div>
+                    <div class="quick-option-subtitle">Praça de Alimentação - Piso 2</div>
+                </button>
+            </div>
+        </div>
+
+        <div class="fixed-footer">
+            <button class="btn btn-primary btn-large" onclick="navigateTo('payment-screen')" id="address-continue-btn" disabled>
+                Continuar para Pagamento
+            </button>
+        </div>
+    </div>
+
+    <!-- Payment Screen -->
+    <div id="payment-screen" class="screen">
+        <div class="top-bar">
+            <div class="top-bar-content">
+                <button class="icon-btn" onclick="navigateTo('address-screen')">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <h2 class="top-bar-title">Pagamento</h2>
+                <div style="width: 40px;"></div>
+            </div>
+        </div>
+
+        <div class="content">
+            <h3 class="section-title">Escolha a forma de pagamento</h3>
+            <div class="payment-grid">
+                <div class="payment-column">
+                    <button class="payment-option active" data-method="card" onclick="selectPaymentMethod('card')">
+                        <div class="payment-radio">
+                            <div class="payment-radio-dot"></div>
+                        </div>
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                            <line x1="1" y1="10" x2="23" y2="10"></line>
+                        </svg>
+                        <div class="payment-text">
+                            <div class="payment-title">Cartão de Crédito/Débito</div>
+                            <div class="payment-subtitle">Visa, Mastercard, Elo</div>
+                        </div>
+                    </button>
+
+                    <button class="payment-option" data-method="pix" onclick="selectPaymentMethod('pix')">
+                        <div class="payment-radio">
+                            <div class="payment-radio-dot"></div>
+                        </div>
+                        <span class="payment-emoji">💳</span>
+                        <div class="payment-text">
+                            <div class="payment-title">PIX</div>
+                            <div class="payment-subtitle">Pagamento instantâneo</div>
+                        </div>
+                    </button>
+
+                    <button class="payment-option" data-method="cash" onclick="selectPaymentMethod('cash')">
+                        <div class="payment-radio">
+                            <div class="payment-radio-dot"></div>
+                        </div>
+                        <span class="payment-emoji">💵</span>
+                        <div class="payment-text">
+                            <div class="payment-title">Dinheiro</div>
+                            <div class="payment-subtitle">Pagar na entrega</div>
+                        </div>
+                    </button>
+                </div>
+
+                <div class="payment-summary" id="payment-summary"></div>
+            </div>
+        </div>
+
+        <div class="fixed-footer mobile-only">
+            <button class="btn btn-success btn-large" onclick="confirmOrder()">
+                Confirmar Pedido
+            </button>
+        </div>
+    </div>
+
+    <!-- Confirmation Screen -->
+    <div id="confirmation-screen" class="screen">
+        <div class="confirmation-content">
+            <div class="confirmation-icon">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+            <h2 class="confirmation-title">Pedido Confirmado!</h2>
+            <p class="confirmation-subtitle">Seu pedido foi recebido com sucesso</p>
+
+            <div class="order-card" id="confirmation-order"></div>
+
+            <div class="confirmation-buttons">
+                <button class="btn btn-primary btn-large" onclick="navigateTo('tracking-screen')">
+                    Acompanhar Pedido
+                </button>
+                <button class="btn btn-outline btn-large" onclick="navigateTo('home-screen')">
+                    Voltar ao Início
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tracking Screen -->
+    <div id="tracking-screen" class="screen">
+        <div class="top-bar">
+            <div class="top-bar-content">
+                <button class="icon-btn" onclick="navigateTo('home-screen')">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <h2 class="top-bar-title">Acompanhar Pedido</h2>
+                <div style="width: 40px;"></div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="tracking-order-info" id="tracking-order-info"></div>
+            <div class="tracking-timeline" id="tracking-timeline"></div>
+            <div class="tracking-time" id="tracking-time"></div>
+            <div class="tracking-buttons">
+                <button class="btn btn-outline btn-large" onclick="navigateTo('history-screen')">
+                    Ver Histórico de Pedidos
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Screen -->
+    <div id="history-screen" class="screen">
+        <div class="top-bar">
+            <div class="top-bar-content">
+                <button class="icon-btn" onclick="navigateTo('home-screen')">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <h2 class="top-bar-title">Meus Pedidos</h2>
+                <div style="width: 40px;"></div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div id="history-content"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
