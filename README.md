@@ -1,6 +1,6 @@
 # 🍔 SaborExpress - Protótipo de Interface
 
-Este repositório contém o protótipo de interface desenvolvido para a disciplina de **Interação Humano-Computador (IHC)**.  
+Este repositório contém o protótipo de interface desenvolvido para a disciplina de **Interface Homem-Computador (IHC)**.  
 O objetivo é simular a experiência de um **totem de autoatendimento para fast food**, com navegação simples e intuitiva.
 
 ---
