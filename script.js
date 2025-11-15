@@ -5,7 +5,7 @@ const products = [
     name: "X-Burger Clássico",
     category: "sanduiches",
     price: 18.9,
-    image: "public/classic-burger.png",
+    image: "/classic-burger.png",
     description: "Hambúrguer suculento com queijo, alface e tomate",
     ingredients: ["Pão", "Hambúrguer", "Queijo", "Alface", "Tomate", "Maionese"],
   },
@@ -14,7 +14,7 @@ const products = [
     name: "X-Bacon Especial",
     category: "sanduiches",
     price: 22.9,
-    image: "public/bacon-burger.png", 
+    image: "/bacon-burger.png",
     description: "Hambúrguer com bacon crocante e queijo cheddar",
     ingredients: ["Pão", "Hambúrguer", "Bacon", "Queijo Cheddar", "Cebola Caramelizada"],
   },
@@ -23,7 +23,8 @@ const products = [
     name: "X-Salada Premium",
     category: "sanduiches",
     price: 20.9,
-    image: "public/salad-burger.jpg", 
+    image: "/salad-burger.jpg",
+    description: "Opção mais leve com vegetais frescos",
     ingredients: ["Pão Integral", "Hambúrguer", "Alface", "Tomate", "Cenoura", "Molho Especial"],
   },
   {
@@ -32,7 +33,7 @@ const products = [
     category: "sanduiches",
     price: 28.9,
     originalPrice: 32.9,
-    image: "public/supreme-burger.jpg",
+    image: "/supreme-burger.jpg",
     description: "O mais completo! Tudo que você imaginar",
     ingredients: ["Pão", "Hambúrguer Duplo", "Bacon", "Queijo", "Ovo", "Presunto", "Alface", "Tomate"],
   },
@@ -41,7 +42,7 @@ const products = [
     name: "Batata Frita Grande",
     category: "acompanhamentos",
     price: 12.9,
-    image: "public/crispy-french-fries.png",
+    image: "/crispy-french-fries.png",
     description: "Batatas crocantes e sequinhas",
     ingredients: ["Batata", "Sal"],
   },
@@ -50,7 +51,7 @@ const products = [
     name: "Onion Rings",
     category: "acompanhamentos",
     price: 14.9,
-    image: "public/crispy-onion-rings.png", 
+    image: "/crispy-onion-rings.png",
     description: "Anéis de cebola empanados",
     ingredients: ["Cebola", "Farinha Especial"],
   },
@@ -59,7 +60,7 @@ const products = [
     name: "Nuggets (10un)",
     category: "acompanhamentos",
     price: 16.9,
-    image: "public/crispy-chicken-nuggets.png", 
+    image: "/crispy-chicken-nuggets.png",
     description: "Nuggets de frango crocantes",
     ingredients: ["Frango", "Empanado Crocante"],
   },
@@ -68,7 +69,7 @@ const products = [
     name: "Refrigerante Lata",
     category: "bebidas",
     price: 5.9,
-    image: "public/soda-can.png", 
+    image: "/soda-can.png",
     description: "Coca-Cola, Guaraná ou Fanta",
     ingredients: [],
   },
@@ -77,7 +78,7 @@ const products = [
     name: "Suco Natural 500ml",
     category: "bebidas",
     price: 8.9,
-    image: "public/glass-of-orange-juice.png",
+    image: "/glass-of-orange-juice.png",
     description: "Laranja, Limão ou Morango",
     ingredients: [],
   },
@@ -87,7 +88,7 @@ const products = [
     category: "bebidas",
     price: 12.9,
     originalPrice: 15.9,
-    image: "public/classic-milkshake.png", 
+    image: "/classic-milkshake.png",
     description: "Chocolate, Morango ou Baunilha",
     ingredients: [],
   },
@@ -96,7 +97,7 @@ const products = [
     name: "Combo Clássico",
     category: "combos",
     price: 32.9,
-    image: "public/burger-combo.png", 
+    image: "/burger-combo.png",
     description: "X-Burger + Batata + Refrigerante",
     ingredients: ["X-Burger", "Batata Média", "Refrigerante"],
   },
@@ -106,7 +107,7 @@ const products = [
     category: "combos",
     price: 89.9,
     originalPrice: 112.4,
-    image: "public/family-meal.png", 
+    image: "/family-meal.png",
     description: "3 X-Burgers + 2 Batatas + 3 Refrigerantes",
     ingredients: ["3 X-Burgers", "2 Batatas Grandes", "3 Refrigerantes"],
   },
@@ -118,25 +119,51 @@ let selectedCategory = "sanduiches"
 let selectedProduct = null
 let cart = []
 let customizations = []
-const orderHistory = []
 let currentOrder = null
 let paymentMethod = "card"
 let orderStatus = "preparing"
 
 // Initialize
 document.addEventListener("DOMContentLoaded", () => {
-  // Show splash screen for 2.5 seconds
-  setTimeout(() => {
-    navigateTo("home-screen")
-  }, 2500)
-
-  // Setup form validation
-  setupFormValidation()
+  showSplashScreen()
 })
+
+function showSplashScreen() {
+  const splashScreen = document.getElementById('splash-screen');
+  if (splashScreen) {
+    splashScreen.classList.add('active');
+    splashScreen.style.display = 'flex';
+  }
+  // Hide all other screens
+  document.querySelectorAll(".screen:not(#splash-screen)").forEach((screen) => {
+    screen.classList.remove("active")
+  })
+  currentScreen = "splash"
+}
+
+function startOrder() {
+  const splashScreen = document.getElementById('splash-screen');
+  if (splashScreen) {
+    splashScreen.classList.remove('active');
+    splashScreen.style.display = 'none';
+  }
+  navigateTo("home-screen")
+}
 
 // Navigation
 function navigateTo(screenId, category = null) {
-  document.querySelectorAll(".screen").forEach((screen) => {
+  if (screenId === 'splash-screen') {
+    showSplashScreen()
+    return
+  }
+  
+  const splashScreen = document.getElementById('splash-screen');
+  if (splashScreen) {
+    splashScreen.classList.remove('active');
+    splashScreen.style.display = 'none';
+  }
+  
+  document.querySelectorAll(".screen:not(#splash-screen)").forEach((screen) => {
     screen.classList.remove("active")
   })
   document.getElementById(screenId).classList.add("active")
@@ -151,11 +178,11 @@ function navigateTo(screenId, category = null) {
     renderMenu()
   } else if (screenId === "cart-screen") {
     renderCart()
-  } else if (screenId === "history-screen") {
-    renderHistory()
   } else if (screenId === "tracking-screen") {
     renderTracking()
     simulateOrderProgress()
+  } else if (screenId === "payment-screen") {
+    renderPaymentSummary()
   }
 
   // Scroll to top
@@ -202,11 +229,22 @@ function renderMenu() {
     .map(
       (product) => `
         <div class="product-card" onclick="showProductDetail(${product.id})">
-            <img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.src='public/placeholder.png'">
+            <img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.src='/placeholder.svg?height=96&width=96'">
             <div class="product-info">
-                <h3 class="product-name">${product.name}</h3>
-                <p class="product-description">${product.description}</p>
-                <p class="product-price">R$ ${product.price.toFixed(2)}</p>
+                <div class="product-name">${product.name}</div>
+                <div class="product-description">${product.description}</div>
+                <div class="product-footer">
+                    <div class="product-price-container">
+                        ${product.originalPrice ? `<div class="product-original-price">R$ ${product.originalPrice.toFixed(2)}</div>` : ""}
+                        <div class="product-price">R$ ${product.price.toFixed(2)}</div>
+                    </div>
+                    <button class="btn-add" onclick="event.stopPropagation(); showProductDetail(${product.id})">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
     `,
@@ -266,7 +304,7 @@ function showProductDetail(productId) {
                 </svg>
             </button>
             ${selectedProduct.originalPrice ? `<div class="product-discount-badge">${discountPercent}% OFF</div>` : ""}
-            <img src="${selectedProduct.image}" alt="${selectedProduct.name}" onerror="this.src='public/placeholder.png'">
+            <img src="${selectedProduct.image}" alt="${selectedProduct.name}" onerror="this.src='/placeholder.svg?height=400&width=400'">
         </div>
         <div class="product-detail-info">
             <h2 class="product-detail-name">${selectedProduct.name}</h2>
@@ -361,7 +399,7 @@ function renderCart() {
       (item) => `
         <div class="cart-item">
             <div class="cart-item-content">
-                <img src="${item.image}" alt="${item.name}" class="cart-item-image" onerror="this.src='public/placeholder.png'">
+                <img src="${item.image}" alt="${item.name}" class="cart-item-image" onerror="this.src='/placeholder.svg?height=80&width=80'">
                 <div class="cart-item-info">
                     <div class="cart-item-header">
                         <div class="cart-item-name">${item.name}</div>
@@ -406,47 +444,15 @@ function renderCart() {
                 <span>Subtotal</span>
                 <span>R$ ${total.toFixed(2)}</span>
             </div>
-            <div class="cart-summary-row">
-                <span>Taxa de entrega</span>
-                <span class="cart-summary-free">Grátis</span>
-            </div>
             <div class="cart-summary-total">
                 <span>Total</span>
                 <span class="cart-summary-total-value">R$ ${total.toFixed(2)}</span>
             </div>
         </div>
-        <button class="btn btn-primary btn-large" onclick="navigateTo('address-screen')">
-            Continuar para Entrega
+        <button class="btn btn-primary btn-large" onclick="navigateTo('payment-screen')">
+            Continuar para Pagamento
         </button>
     `
-}
-
-// Address
-function setupFormValidation() {
-  const inputs = ["address-street", "address-number", "address-neighborhood"]
-  inputs.forEach((id) => {
-    const input = document.getElementById(id)
-    if (input) {
-      input.addEventListener("input", validateAddressForm)
-    }
-  })
-}
-
-function validateAddressForm() {
-  const street = document.getElementById("address-street").value
-  const number = document.getElementById("address-number").value
-  const neighborhood = document.getElementById("address-neighborhood").value
-  const btn = document.getElementById("address-continue-btn")
-
-  btn.disabled = !(street && number && neighborhood)
-}
-
-function fillShoppingAddress() {
-  document.getElementById("address-street").value = "Shopping Vitória"
-  document.getElementById("address-number").value = "Piso 2"
-  document.getElementById("address-complement").value = "Praça de Alimentação"
-  document.getElementById("address-neighborhood").value = "Centro"
-  validateAddressForm()
 }
 
 // Payment
@@ -466,12 +472,8 @@ function renderPaymentSummary() {
         <h4 class="payment-summary-title">Resumo do Pedido</h4>
         <div class="payment-summary-items">
             <div class="payment-summary-row">
-                <span>Subtotal (${count} ${count === 1 ? "item" : "itens"})</span>
+                <span>Itens (${count})</span>
                 <span>R$ ${total.toFixed(2)}</span>
-            </div>
-            <div class="payment-summary-row">
-                <span>Taxa de entrega</span>
-                <span class="cart-summary-free">Grátis</span>
             </div>
             <div class="payment-summary-total">
                 <span>Total</span>
@@ -486,15 +488,6 @@ function renderPaymentSummary() {
   document.getElementById("payment-summary").innerHTML = summaryHtml
 }
 
-// When navigating to payment screen
-const originalNavigateTo = navigateTo
-navigateTo = (screenId, category) => {
-  originalNavigateTo(screenId, category)
-  if (screenId === "payment-screen") {
-    renderPaymentSummary()
-  }
-}
-
 // Order
 function confirmOrder() {
   const orderId = `#${Math.floor(Math.random() * 10000)}`
@@ -506,7 +499,6 @@ function confirmOrder() {
     date: new Date().toLocaleString("pt-BR"),
   }
 
-  orderHistory.unshift(currentOrder)
   cart = []
   updateCartBadges()
 
@@ -525,8 +517,8 @@ function confirmOrder() {
                 <span class="order-detail-value price">R$ ${currentOrder.total.toFixed(2)}</span>
             </div>
             <div class="order-detail-row">
-                <span class="order-detail-label">Tempo estimado</span>
-                <span class="order-detail-value time">25-35 min</span>
+                <span class="order-detail-label">Tempo de preparo</span>
+                <span class="order-detail-value time">15-25 min</span>
             </div>
         </div>
     `
@@ -591,7 +583,7 @@ function updateTrackingTimeline() {
             </div>
             <div class="timeline-content">
                 <h3 class="timeline-title">Pedido pronto</h3>
-                <p class="timeline-description">Seu pedido está pronto para retirada/entrega</p>
+                <p class="timeline-description">Seu pedido está pronto! Retire no balcão</p>
             </div>
         </div>
 
@@ -604,7 +596,7 @@ function updateTrackingTimeline() {
                 </div>
             </div>
             <div class="timeline-content">
-                <h3 class="timeline-title">Pedido entregue</h3>
+                <h3 class="timeline-title">Pedido retirado</h3>
                 <p class="timeline-description">Aproveite sua refeição!</p>
             </div>
         </div>
@@ -621,7 +613,7 @@ function updateTrackingTimeline() {
         </svg>
         <div class="tracking-time-content">
             <div class="tracking-time-label">Tempo estimado</div>
-            <div class="tracking-time-value">${orderStatus === "preparing" ? "20-30 minutos" : "5-10 minutos"}</div>
+            <div class="tracking-time-value">${orderStatus === "preparing" ? "15-20 minutos" : "Pronto para retirada"}</div>
         </div>
     `
       : ""
@@ -644,69 +636,24 @@ function simulateOrderProgress() {
 
     const buttons = document.querySelector(".tracking-buttons")
     buttons.innerHTML = `
-            <button class="btn btn-primary btn-large" onclick="navigateTo('home-screen')">
-                Fazer Novo Pedido
-            </button>
-            <button class="btn btn-outline btn-large" onclick="navigateTo('history-screen')">
-                Ver Histórico de Pedidos
+            <button class="btn btn-primary btn-large" onclick="finishOrder()">
+                Finalizar Atendimento
             </button>
         `
+    
+    setTimeout(() => {
+      finishOrder()
+    }, 8000)
   }, 6000)
 }
 
-// History
-function renderHistory() {
-  const historyContent = document.getElementById("history-content")
-
-  if (orderHistory.length === 0) {
-    historyContent.innerHTML = `
-            <div class="empty-state">
-                <div class="empty-icon">📦</div>
-                <h3 class="empty-title">Nenhum pedido ainda</h3>
-                <p class="empty-text">Faça seu primeiro pedido!</p>
-                <button class="btn btn-primary" onclick="navigateTo('menu-screen')">Ver Cardápio</button>
-            </div>
-        `
-    return
-  }
-
-  const cardsHtml = orderHistory
-    .map(
-      (order) => `
-        <div class="history-card">
-            <div class="history-header">
-                <div class="history-id-container">
-                    <div class="history-id">${order.id}</div>
-                    <div class="history-date">${order.date}</div>
-                </div>
-                <div class="history-status ${order.status}">
-                    ${order.status === "delivered" ? "Entregue" : order.status === "ready" ? "Pronto" : "Preparando"}
-                </div>
-            </div>
-            <div class="history-items">
-                ${order.items
-                  .slice(0, 2)
-                  .map(
-                    (item) => `
-                    <div class="history-item">${item.quantity}x ${item.name}</div>
-                `,
-                  )
-                  .join("")}
-                ${order.items.length > 2 ? `<div class="history-item">+${order.items.length - 2} ${order.items.length - 2 === 1 ? "item" : "itens"}</div>` : ""}
-            </div>
-            <div class="history-footer">
-                <span class="history-total">R$ ${order.total.toFixed(2)}</span>
-                <button class="btn btn-primary" onclick="viewOrderDetails('${order.id}')">Ver Detalhes</button>
-            </div>
-        </div>
-    `,
-    )
-    .join("")
-
-  historyContent.innerHTML = `<div class="history-grid">${cardsHtml}</div>`
-}
-
-function viewOrderDetails(orderId) {
-  currentOrder = orderHistory.find((o) => o.id === orderId)
-  navigateTo("tracking-screen")
+function finishOrder() {
+  // Reset current order and cart
+  currentOrder = null
+  cart = []
+  orderStatus = "preparing"
+  updateCartBadges()
+  
+  // Return to splash screen for next customer
+  showSplashScreen()
 }
