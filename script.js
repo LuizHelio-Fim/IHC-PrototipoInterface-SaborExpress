@@ -468,24 +468,25 @@ function renderPaymentSummary() {
   const total = getCartTotal()
   const count = cart.length
 
-  const summaryHtml = `
-        <h4 class="payment-summary-title">Resumo do Pedido</h4>
-        <div class="payment-summary-items">
-            <div class="payment-summary-row">
-                <span>Itens (${count})</span>
-                <span>R$ ${total.toFixed(2)}</span>
-            </div>
-            <div class="payment-summary-total">
-                <span>Total</span>
-                <span class="payment-summary-total-value">R$ ${total.toFixed(2)}</span>
-            </div>
-        </div>
-        <button class="btn btn-success btn-large" onclick="confirmOrder()">
-            Confirmar Pedido
-        </button>
-    `
+  const itemsHtml = `
+    <div class="payment-summary-row">
+      <span>Itens (${count})</span>
+      <span>R$ ${total.toFixed(2)}</span>
+    </div>
+    <div class="payment-summary-total">
+      <span>Total</span>
+      <span class="payment-summary-total-value">R$ ${total.toFixed(2)}</span>
+    </div>
+  `
 
-  document.getElementById("payment-summary").innerHTML = summaryHtml
+  const footerHtml = `
+    <button class="btn btn-success btn-large" onclick="confirmOrder()">
+      Confirmar Pedido
+    </button>
+  `
+
+  document.getElementById("payment-summary-items").innerHTML = itemsHtml
+  document.getElementById("payment-footer").innerHTML = footerHtml
 }
 
 // Order
@@ -634,12 +635,12 @@ function simulateOrderProgress() {
     orderStatus = "delivered"
     updateTrackingTimeline()
 
-    const buttons = document.querySelector(".tracking-buttons")
-    buttons.innerHTML = `
-            <button class="btn btn-primary btn-large" onclick="finishOrder()">
-                Finalizar Atendimento
-            </button>
-        `
+    const footer = document.getElementById("tracking-footer")
+    footer.innerHTML = `
+      <button class="btn btn-primary btn-large" onclick="finishOrder()">
+        Finalizar Atendimento
+      </button>
+    `
     
     setTimeout(() => {
       finishOrder()

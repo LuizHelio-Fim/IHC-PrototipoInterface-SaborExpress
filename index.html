@@ -240,33 +240,55 @@
                     </button>
                 </div>
 
-                <div class="payment-summary" id="payment-summary"></div>
+                <div class="payment-summary-card">
+                    <!-- Moved payment summary into a card, button will be in footer -->
+                    <h4 class="payment-summary-title">Resumo do Pedido</h4>
+                    <div class="payment-summary-items" id="payment-summary-items"></div>
+                </div>
             </div>
         </div>
+
+        <!-- Added footer with button matching cart screen pattern -->
+        <div class="cart-footer" id="payment-footer"></div>
     </div>
 
     <!-- Confirmation Screen -->
     <div id="confirmation-screen" class="screen">
-        <div class="confirmation-content">
-            <div class="confirmation-icon">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-            </div>
-            <h2 class="confirmation-title">Pedido Confirmado!</h2>
-            <!-- Changed subtitle to indicate pickup -->
-            <p class="confirmation-subtitle">Retire seu pedido no balcão</p>
-
-            <div class="order-card" id="confirmation-order"></div>
-
-            <div class="confirmation-buttons">
-                <button class="btn btn-primary btn-large" onclick="navigateTo('tracking-screen')">
-                    Acompanhar Pedido
+        <div class="top-bar">
+            <div class="top-bar-content">
+                <button class="icon-btn" onclick="navigateTo('home-screen')">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
                 </button>
-                <button class="btn btn-outline btn-large" onclick="navigateTo('home-screen')">
-                    Fazer Novo Pedido
-                </button>
+                <h2 class="top-bar-title">Pedido Confirmado!</h2>
+                <div style="width: 40px;"></div>
             </div>
+        </div>
+
+        <div class="content">
+            <div class="confirmation-content">
+                <div class="confirmation-icon">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+                <h2 class="confirmation-title">Pedido Confirmado!</h2>
+                <!-- Changed subtitle to indicate pickup -->
+                <p class="confirmation-subtitle">Retire seu pedido no balcão</p>
+
+                <div class="order-card" id="confirmation-order"></div>
+            </div>
+        </div>
+
+        <!-- Replaced inline buttons with footer matching cart screen pattern -->
+        <div class="cart-footer">
+            <button class="btn btn-primary btn-large" onclick="navigateTo('home-screen')">
+                Iniciar Novo Pedido
+            </button>
+            <button class="btn btn-outline btn-large" onclick="navigateTo('splash-screen')" style="margin-top: 12px;">
+                Finalizar Atendimento
+            </button>
         </div>
     </div>
 
@@ -288,10 +310,10 @@
             <div class="tracking-order-info" id="tracking-order-info"></div>
             <div class="tracking-timeline" id="tracking-timeline"></div>
             <div class="tracking-time" id="tracking-time"></div>
-            <div class="tracking-buttons">
-                <!-- Removed history button, will be replaced after order completion -->
-            </div>
         </div>
+
+        <!-- Added footer for tracking buttons matching cart screen pattern -->
+        <div class="cart-footer" id="tracking-footer"></div>
     </div>
 
     <script src="script.js"></script>

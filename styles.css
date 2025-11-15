@@ -1037,6 +1037,7 @@ body {
   display: grid;
   grid-template-columns: 1fr;
   gap: 32px;
+  padding-bottom: 32px;
 }
 
 .payment-column {
@@ -1083,5 +1084,5 @@ body {
 
 .payment-radio-dot {
   width: 12px;
-  height: 1
+  height: 12
 }
