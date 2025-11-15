@@ -242,6 +242,12 @@ body {
   margin: 0 auto;
 }
 
+@media (max-width: 767px) {
+  #home-screen .content {
+    padding-bottom: 120px;
+  }
+}
+
 /* Hero Banner */
 .hero-banner {
   background: linear-gradient(135deg, var(--yellow-400), var(--orange-500));
