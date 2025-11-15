@@ -70,8 +70,9 @@ const products = [
     category: "bebidas",
     price: 5.9,
     image: "public/soda-can.png",
-    description: "Coca-Cola, Guaraná ou Fanta",
-    ingredients: [],
+    description: "Escolha o Refri de sua preferência",
+    flavors: ["Coca-Cola", "Guaraná Antarctica", "Fanta Laranja"],
+    selectedFlavor: null,
   },
   {
     id: 9,
@@ -79,8 +80,9 @@ const products = [
     category: "bebidas",
     price: 8.9,
     image: "public/glass-of-orange-juice.png",
-    description: "Laranja, Limão ou Morango",
-    ingredients: [],
+    description: "Suco natural fresquinho",
+    flavors: ["Laranja", "Limão", "Morango"],
+    selectedFlavor: null,
   },
   {
     id: 10,
@@ -89,8 +91,9 @@ const products = [
     price: 12.9,
     originalPrice: 15.9,
     image: "public/classic-milkshake.png",
-    description: "Chocolate, Morango ou Baunilha",
-    ingredients: [],
+    description: "Cremoso e delicioso",
+    flavors: ["Chocolate", "Morango", "Baunilha"],
+    selectedFlavor: null,
   },
   {
     id: 11,
@@ -272,26 +275,53 @@ function showProductDetail(productId) {
     ? (selectedProduct.originalPrice - selectedProduct.price).toFixed(2)
     : 0
 
+  // Renderiza sabores para bebidas
+  const flavorsHtml = selectedProduct.flavors
+    ? `
+        <div class="customizations-section">
+            <h3 class="customizations-title">Escolha o sabor</h3>
+            <p class="customizations-subtitle">Selecione uma opção:</p>
+            <div class="flavors-grid">
+                ${selectedProduct.flavors
+                  .map(
+                    (flavor) => `
+                    <div class="flavor-option" onclick="selectFlavor('${flavor}')">
+                        <input type="radio" name="flavor" id="flavor-${flavor}" class="flavor-radio">
+                        <label for="flavor-${flavor}" class="flavor-label">
+                            ${flavor}
+                        </label>
+                    </div>
+                `,
+                  )
+                  .join("")}
+            </div>
+        </div>
+    `
+    : ""
+
+  // Renderiza ingredientes removíveis
   const customizationsHtml =
-    selectedProduct.ingredients.length > 0
+    selectedProduct.ingredients && selectedProduct.ingredients.length > 0
       ? `
         <div class="customizations-section">
             <h3 class="customizations-title">Personalize seu pedido</h3>
             <p class="customizations-subtitle">Remova ingredientes que não deseja:</p>
-            ${selectedProduct.ingredients
-              .map(
-                (ingredient) => `
-                <div class="customization-item">
-                    <input type="checkbox" class="customization-checkbox" 
-                           id="custom-${ingredient}" 
-                           onchange="toggleCustomization('${ingredient}')">
-                    <label class="customization-label" for="custom-${ingredient}">
-                        ${ingredient}
-                    </label>
-                </div>
-            `,
-              )
-              .join("")}
+            <div class="customizations-grid">
+                ${selectedProduct.ingredients
+                  .map(
+                    (ingredient) => `
+                    <div class="customization-item">
+                        <input type="checkbox" class="customization-checkbox" 
+                               id="custom-${ingredient}" 
+                               onchange="toggleCustomization('${ingredient}')">
+                        <label class="customization-label" for="custom-${ingredient}">
+                            ${ingredient}
+                        </label>
+                    </div>
+                `,
+                  )
+                  .join("")}
+            </div>
         </div>
     `
       : ""
@@ -314,6 +344,7 @@ function showProductDetail(productId) {
                 <div class="product-detail-price">R$ ${selectedProduct.price.toFixed(2)}</div>
                 ${selectedProduct.originalPrice ? `<div class="product-savings">Economize R$ ${savingsAmount}</div>` : ""}
             </div>
+            ${flavorsHtml}
             ${customizationsHtml}
         </div>
         <div class="fixed-footer">
@@ -327,39 +358,56 @@ function showProductDetail(productId) {
   navigateTo("product-screen")
 }
 
-function toggleCustomization(ingredient) {
-  const index = customizations.indexOf(ingredient)
-  if (index > -1) {
-    customizations.splice(index, 1)
-  } else {
-    customizations.push(ingredient)
+function selectFlavor(flavor) {
+  if (selectedProduct) {
+    selectedProduct.selectedFlavor = flavor
+    // Atualiza visualmente a seleção
+    document.querySelectorAll('.flavor-option').forEach(option => {
+      option.classList.remove('selected')
+    })
+    event.currentTarget.classList.add('selected')
+    document.getElementById(`flavor-${flavor}`).checked = true
   }
 }
 
 // Cart operations
 function addToCart() {
-  const existingItem = cart.find((item) => item.id === selectedProduct.id)
+  // Verifica se é uma bebida e se o sabor foi selecionado
+  if (selectedProduct.flavors && !selectedProduct.selectedFlavor) {
+    alert('Por favor, selecione um sabor!')
+    return
+  }
+
+  const existingItem = cart.find((item) => 
+    item.id === selectedProduct.id && 
+    item.selectedFlavor === selectedProduct.selectedFlavor &&
+    JSON.stringify(item.customizations) === JSON.stringify(customizations)
+  )
+  
   if (existingItem) {
     existingItem.quantity++
-    existingItem.customizations = [...customizations]
   } else {
     cart.push({
       ...selectedProduct,
       quantity: 1,
       customizations: [...customizations],
+      selectedFlavor: selectedProduct.selectedFlavor,
     })
   }
   customizations = []
+  if (selectedProduct.selectedFlavor) {
+    selectedProduct.selectedFlavor = null
+  }
   updateCartBadges()
   navigateTo("cart-screen")
 }
 
-function updateQuantity(productId, delta) {
-  const item = cart.find((i) => i.id === productId)
+function updateQuantity(productId, delta, flavor = '') {
+  const item = cart.find((i) => i.id === productId && (i.selectedFlavor || '') === flavor)
   if (item) {
     item.quantity += delta
     if (item.quantity <= 0) {
-      removeFromCart(productId)
+      removeFromCart(productId, flavor)
     } else {
       updateCartBadges()
       renderCart()
@@ -367,8 +415,8 @@ function updateQuantity(productId, delta) {
   }
 }
 
-function removeFromCart(productId) {
-  cart = cart.filter((item) => item.id !== productId)
+function removeFromCart(productId, flavor = '') {
+  cart = cart.filter((item) => !(item.id === productId && (item.selectedFlavor || '') === flavor))
   updateCartBadges()
   renderCart()
 }
@@ -403,24 +451,25 @@ function renderCart() {
                 <div class="cart-item-info">
                     <div class="cart-item-header">
                         <div class="cart-item-name">${item.name}</div>
-                        <button class="btn-remove" onclick="removeFromCart(${item.id})">
+                        <button class="btn-remove" onclick="removeFromCart(${item.id}, '${item.selectedFlavor || ''}')">
                             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <polyline points="3 6 5 6 21 6"></polyline>
                                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                             </svg>
                         </button>
                     </div>
+                    ${item.selectedFlavor ? `<div class="cart-item-flavor">Sabor: ${item.selectedFlavor}</div>` : ""}
                     ${item.customizations.length > 0 ? `<div class="cart-item-customizations">Sem: ${item.customizations.join(", ")}</div>` : ""}
                     <div class="cart-item-footer">
                         <div class="cart-item-price">R$ ${(item.price * item.quantity).toFixed(2)}</div>
                         <div class="quantity-controls">
-                            <button class="btn-quantity" onclick="updateQuantity(${item.id}, -1)">
+                            <button class="btn-quantity" onclick="updateQuantity(${item.id}, -1, '${item.selectedFlavor || ''}')">
                                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <line x1="5" y1="12" x2="19" y2="12"></line>
                                 </svg>
                             </button>
                             <span class="quantity-value">${item.quantity}</span>
-                            <button class="btn-quantity" onclick="updateQuantity(${item.id}, 1)">
+                            <button class="btn-quantity" onclick="updateQuantity(${item.id}, 1, '${item.selectedFlavor || ''}')">
                                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <line x1="12" y1="5" x2="12" y2="19"></line>
                                     <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -490,7 +539,7 @@ function renderPaymentSummary() {
       <span class="payment-summary-total-value">R$ ${total.toFixed(2)}</span>
     </div>
   `
-  
+
   const footerHtml = `
     <button class="btn btn-success btn-large" onclick="confirmOrder()">
       Confirmar Pagamento
