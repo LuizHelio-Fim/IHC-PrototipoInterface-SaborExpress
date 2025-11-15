@@ -15,7 +15,6 @@
             </div>
             <h1 class="splash-title">Sabor Express</h1>
             <p class="splash-subtitle">Totem de Autoatendimento</p>
-            <!-- Replaced loading spinner with start button -->
             <button class="btn-start-order" onclick="startOrder()">
                 <span>Iniciar Pedido</span>
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -41,7 +40,6 @@
                         </svg>
                         <span>Preparo em 15-25 min</span>
                     </div>
-                    <!-- Removed profile button for history -->
                     <button class="icon-btn cart-btn" onclick="navigateTo('cart-screen')">
                         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="9" cy="21" r="1"></circle>
@@ -117,7 +115,6 @@
                 <span>Carrinho</span>
                 <span class="cart-badge-nav" id="cart-badge-nav">0</span>
             </button>
-            <!-- Removed history nav item -->
         </div>
     </div>
 
@@ -178,7 +175,6 @@
     <div id="payment-screen" class="screen">
         <div class="top-bar">
             <div class="top-bar-content">
-                <!-- Changed back button to go to cart instead of address -->
                 <button class="icon-btn" onclick="navigateTo('cart-screen')">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="15 18 9 12 15 6"></polyline>
@@ -190,7 +186,6 @@
         </div>
 
         <div class="content">
-            <!-- Added kiosk information alert -->
             <div class="alert alert-info" style="margin-bottom: 24px;">
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="10"></circle>
@@ -241,14 +236,12 @@
                 </div>
 
                 <div class="payment-summary-card">
-                    <!-- Moved payment summary into a card, button will be in footer -->
                     <h4 class="payment-summary-title">Resumo do Pedido</h4>
                     <div class="payment-summary-items" id="payment-summary-items"></div>
                 </div>
             </div>
         </div>
 
-        <!-- Added footer with button matching cart screen pattern -->
         <div class="cart-footer" id="payment-footer"></div>
     </div>
 
@@ -274,14 +267,12 @@
                     </svg>
                 </div>
                 <h2 class="confirmation-title">Pedido Confirmado!</h2>
-                <!-- Changed subtitle to indicate pickup -->
                 <p class="confirmation-subtitle">Retire seu pedido no balcão</p>
 
                 <div class="order-card" id="confirmation-order"></div>
             </div>
         </div>
 
-        <!-- Replaced inline buttons with footer matching cart screen pattern -->
         <div class="cart-footer">
             <button class="btn btn-primary btn-large" onclick="navigateTo('home-screen')">
                 Iniciar Novo Pedido
@@ -312,7 +303,6 @@
             <div class="tracking-time" id="tracking-time"></div>
         </div>
 
-        <!-- Added footer for tracking buttons matching cart screen pattern -->
         <div class="cart-footer" id="tracking-footer"></div>
     </div>
 

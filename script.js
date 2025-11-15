@@ -5,7 +5,7 @@ const products = [
     name: "X-Burger Clássico",
     category: "sanduiches",
     price: 18.9,
-    image: "/classic-burger.png",
+    image: "public/classic-burger.png",
     description: "Hambúrguer suculento com queijo, alface e tomate",
     ingredients: ["Pão", "Hambúrguer", "Queijo", "Alface", "Tomate", "Maionese"],
   },
@@ -14,7 +14,7 @@ const products = [
     name: "X-Bacon Especial",
     category: "sanduiches",
     price: 22.9,
-    image: "/bacon-burger.png",
+    image: "public/bacon-burger.png",
     description: "Hambúrguer com bacon crocante e queijo cheddar",
     ingredients: ["Pão", "Hambúrguer", "Bacon", "Queijo Cheddar", "Cebola Caramelizada"],
   },
@@ -23,7 +23,7 @@ const products = [
     name: "X-Salada Premium",
     category: "sanduiches",
     price: 20.9,
-    image: "/salad-burger.jpg",
+    image: "public/salad-burger.jpg",
     description: "Opção mais leve com vegetais frescos",
     ingredients: ["Pão Integral", "Hambúrguer", "Alface", "Tomate", "Cenoura", "Molho Especial"],
   },
@@ -33,7 +33,7 @@ const products = [
     category: "sanduiches",
     price: 28.9,
     originalPrice: 32.9,
-    image: "/supreme-burger.jpg",
+    image: "public/supreme-burger.jpg",
     description: "O mais completo! Tudo que você imaginar",
     ingredients: ["Pão", "Hambúrguer Duplo", "Bacon", "Queijo", "Ovo", "Presunto", "Alface", "Tomate"],
   },
@@ -42,7 +42,7 @@ const products = [
     name: "Batata Frita Grande",
     category: "acompanhamentos",
     price: 12.9,
-    image: "/crispy-french-fries.png",
+    image: "public/crispy-french-fries.png",
     description: "Batatas crocantes e sequinhas",
     ingredients: ["Batata", "Sal"],
   },
@@ -51,7 +51,7 @@ const products = [
     name: "Onion Rings",
     category: "acompanhamentos",
     price: 14.9,
-    image: "/crispy-onion-rings.png",
+    image: "public/crispy-onion-rings.png",
     description: "Anéis de cebola empanados",
     ingredients: ["Cebola", "Farinha Especial"],
   },
@@ -60,7 +60,7 @@ const products = [
     name: "Nuggets (10un)",
     category: "acompanhamentos",
     price: 16.9,
-    image: "/crispy-chicken-nuggets.png",
+    image: "public/crispy-chicken-nuggets.png",
     description: "Nuggets de frango crocantes",
     ingredients: ["Frango", "Empanado Crocante"],
   },
@@ -69,7 +69,7 @@ const products = [
     name: "Refrigerante Lata",
     category: "bebidas",
     price: 5.9,
-    image: "/soda-can.png",
+    image: "public/soda-can.png",
     description: "Coca-Cola, Guaraná ou Fanta",
     ingredients: [],
   },
@@ -78,7 +78,7 @@ const products = [
     name: "Suco Natural 500ml",
     category: "bebidas",
     price: 8.9,
-    image: "/glass-of-orange-juice.png",
+    image: "public/glass-of-orange-juice.png",
     description: "Laranja, Limão ou Morango",
     ingredients: [],
   },
@@ -88,7 +88,7 @@ const products = [
     category: "bebidas",
     price: 12.9,
     originalPrice: 15.9,
-    image: "/classic-milkshake.png",
+    image: "public/classic-milkshake.png",
     description: "Chocolate, Morango ou Baunilha",
     ingredients: [],
   },
@@ -97,7 +97,7 @@ const products = [
     name: "Combo Clássico",
     category: "combos",
     price: 32.9,
-    image: "/burger-combo.png",
+    image: "public/burger-combo.png",
     description: "X-Burger + Batata + Refrigerante",
     ingredients: ["X-Burger", "Batata Média", "Refrigerante"],
   },
@@ -107,7 +107,7 @@ const products = [
     category: "combos",
     price: 89.9,
     originalPrice: 112.4,
-    image: "/family-meal.png",
+    image: "public/family-meal.png",
     description: "3 X-Burgers + 2 Batatas + 3 Refrigerantes",
     ingredients: ["3 X-Burgers", "2 Batatas Grandes", "3 Refrigerantes"],
   },
@@ -468,20 +468,32 @@ function renderPaymentSummary() {
   const total = getCartTotal()
   const count = cart.length
 
-  const itemsHtml = `
+  const itemsListHtml = cart
+    .map(
+      (item) => `
     <div class="payment-summary-row">
-      <span>Itens (${count})</span>
-      <span>R$ ${total.toFixed(2)}</span>
+      <div class="payment-summary-item-info">
+        <span>${item.quantity}x ${item.name}</span>
+        ${item.customizations.length > 0 ? `<span class="payment-summary-customizations">Sem: ${item.customizations.join(", ")}</span>` : ""}
+      </div>
+      <span>R$ ${(item.price * item.quantity).toFixed(2)}</span>
     </div>
+  `
+    )
+    .join("")
+  
+  const itemsHtml = `
+    ${itemsListHtml}
+    <div class="payment-summary-divider"></div>
     <div class="payment-summary-total">
       <span>Total</span>
       <span class="payment-summary-total-value">R$ ${total.toFixed(2)}</span>
     </div>
   `
-
+  
   const footerHtml = `
     <button class="btn btn-success btn-large" onclick="confirmOrder()">
-      Confirmar Pedido
+      Confirmar Pagamento
     </button>
   `
 
