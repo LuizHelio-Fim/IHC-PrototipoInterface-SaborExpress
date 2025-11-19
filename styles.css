@@ -2439,3 +2439,45 @@ body {
   font-weight: 700;
   color: var(--orange-600);
 }
+
+/* Mobile Fixes - Footer Overlap Prevention */
+@media (max-width: 768px) {
+  /* Product Detail Screen - Add margin to info section */
+  .product-detail {
+    padding-bottom: 200px !important;
+  }
+  
+  .product-detail-info {
+    padding-bottom: 160px !important;
+  }
+  
+  /* Cart Screen */
+  #cart-screen .content {
+    padding-bottom: 220px !important;
+  }
+  
+  /* Payment Screen */
+  #payment-screen .content {
+    padding-bottom: 220px !important;
+  }
+  
+  /* Confirmation Screen */
+  .confirmation-content {
+    padding-bottom: 180px !important;
+  }
+  
+  /* Order Card */
+  .order-card {
+    margin-bottom: 120px;
+  }
+  
+  /* Tracking Screen */
+  .tracking-time {
+    margin-bottom: 120px;
+  }
+  
+  /* Fixed Footer - Ensure it doesn't block content */
+  .fixed-footer {
+    max-height: 140px;
+  }
+}
